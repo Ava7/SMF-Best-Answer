@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!DOCTYPE modification SYSTEM "http://www.simplemachines.org/xml/modification">
+<modification xmlns="http://www.simplemachines.org/xml/modification" xmlns:smf="http://www.simplemachines.org/">
+	<id>Avalanche91:BestAnswer</id>	
+	<name>Best Answer</name>	
+	<version>1.4</version>
+
+	<file name="$languagedir/Modifications.turkish.php" error="skip">
+		<operation>
+			<search position="end"></search>
+			<add><![CDATA[
+// Best Answer
+$txt['bestanswer'] = 'En İyi Cevap';
+$txt['rv_bestanswer'] = 'En İyi Cevap (Geri Al)';
+$txt['bestanswer_marked'] = 'Bu mesaj En İyi Cevap olarak işaretlendi. İşaretleyen: ';
+$txt['bestanswer_jumpto_1'] = 'Bu konu En İyi Cevap olarak işaretlenmiş bir mesaj içeriyor.';
+$txt['bestanswer_jumpto_2'] = 'Görmek için tıklayınız.';
+// End of Best Answer
+		]]></add>
+		</operation>
+	</file>
+
+</modification>

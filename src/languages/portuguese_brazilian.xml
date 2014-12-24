@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!DOCTYPE modification SYSTEM "http://www.simplemachines.org/xml/modification">
+<modification xmlns="http://www.simplemachines.org/xml/modification" xmlns:smf="http://www.simplemachines.org/">
+	<id>Avalanche91:BestAnswer</id>
+	<name>Best Answer</name>
+	<version>1.4</version>
+
+	<file name="$languagedir/Modifications.portuguese_brazilian.php" error="skip">
+		<operation>
+			<search position="end"></search>
+			<add><![CDATA[
+// Best Answer
+$txt['bestanswer'] = 'Melhor Resposta';
+$txt['rv_bestanswer'] = 'Apagar melhor resposta';
+$txt['bestanswer_marked'] = 'Marcado como melhor resposta por';
+$txt['bestanswer_jumpto_1'] = 'Este tópico contém uma mensagem que é marcada como melhor resposta.';
+$txt['bestanswer_jumpto_2'] = 'Pressione aqui se você gostaria de vê-lo.';
+// End of Best Answer
+		]]></add>
+		</operation>
+	</file>
+
+</modification>

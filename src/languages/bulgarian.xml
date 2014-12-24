@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!DOCTYPE modification SYSTEM "http://www.simplemachines.org/xml/modification">
+<modification xmlns="http://www.simplemachines.org/xml/modification" xmlns:smf="http://www.simplemachines.org/">
+	<id>Avalanche91:BestAnswer</id>	
+	<name>Best Answer</name>	
+	<version>1.4</version>
+
+	<file name="$languagedir/Modifications.bulgarian.php" error="skip">
+		<operation>
+			<search position="end"></search>
+			<add><![CDATA[
+// Best Answer
+$txt['bestanswer'] = 'Най-добър отговор';
+$txt['rv_bestanswer'] = 'Не е най-добър отговор';
+$txt['bestanswer_marked'] = 'Отбелязано като най-добър отговор от';
+$txt['bestanswer_jumpto_1'] = 'Тази тема съдържа пост, който е маркиран като Най-добър отговор.';
+$txt['bestanswer_jumpto_2'] = 'Натиснете тук, ако желаете да го видите.';
+// End of Best Answer
+		]]></add>
+		</operation>
+	</file>
+
+</modification>

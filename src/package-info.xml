@@ -1,0 +1,104 @@
+<?xml version="1.0"?>
+<!DOCTYPE package-info SYSTEM "http://www.simplemachines.org/xml/package-info">
+
+<package-info xmlns="http://www.simplemachines.org/xml/package-info" xmlns:smf="http://www.simplemachines.org/">
+	
+	<id>Avalanche91:BestAnswer</id>	
+	<name>Best Answer Intergration</name>	
+	<version>1.4</version>
+	<type>modification</type>
+
+	<install for="1.1 - 1.1.99">
+		<readme type="file" parsebbc="true">Readme.txt</readme>
+		<modification>modification-1.1.xml</modification>
+		<require-file name="1.1_files/BestAnswer.php" destination="$sourcedir" />
+		<require-file name="1.1_files/best_answer.gif" destination="$imagesdir/buttons" />
+		<require-file name="1.1_files/best_answer_remove.gif" destination="$imagesdir/buttons" />
+		<require-file name="goto_best_answer.gif" destination="$imagesdir/buttons" />
+
+		<modification type="file" type="xml">languages/english.xml</modification>
+		<modification type="file" type="xml">languages/english-utf8.xml</modification>
+		<modification type="file" type="xml">languages/bulgarian.xml</modification>
+		<modification type="file" type="xml">languages/bulgarian-utf8.xml</modification>
+		<modification type="file" type="xml">languages/turkish.xml</modification>
+		<modification type="file" type="xml">languages/turkish-utf8.xml</modification>
+		<modification type="file" type="xml">languages/italian.xml</modification>
+		<modification type="file" type="xml">languages/italian-utf8.xml</modification>
+		<modification type="file" type="xml">languages/portuguese_brazilian.xml</modification>
+		<modification type="file" type="xml">languages/portuguese_brazilian-utf8.xml</modification>
+		<modification type="file" type="xml">languages/english_british.xml</modification>
+		<modification type="file" type="xml">languages/english_british-utf8.xml</modification>
+
+		<code>install-1.php</code>
+	</install>
+	
+	<uninstall for="1.1 - 1.1.99">
+		<modification reverse="true">modification-1.1.xml</modification>
+		<remove-file name="$sourcedir/BestAnswer.php" />
+		<remove-file name="$imagesdir/buttons/best_answer.png" />
+		<remove-file name="$imagesdir/icons/goto_best_answer.gif" />
+
+		<modification type="file" type="xml" reverse="true">languages/english.xml</modification>
+		<modification type="file" type="xml" reverse="true">languages/english-utf8.xml</modification>
+		<modification type="file" type="xml" reverse="true">languages/bulgarian.xml</modification>
+		<modification type="file" type="xml" reverse="true">languages/bulgarian-utf8.xml</modification>
+		<modification type="file" type="xml" reverse="true">languages/turkish.xml</modification>
+		<modification type="file" type="xml" reverse="true">languages/turkish-utf8.xml</modification>
+		<modification type="file" type="xml" reverse="true">languages/italian.xml</modification>
+		<modification type="file" type="xml" reverse="true">languages/italian-utf8.xml</modification>
+		<modification type="file" type="xml" reverse="true">languages/portuguese_brazilian.xml</modification>
+		<modification type="file" type="xml" reverse="true">languages/portuguese_brazilian-utf8.xml</modification>
+		<modification type="file" type="xml" reverse="true">languages/english_british.xml</modification>
+		<modification type="file" type="xml" reverse="true">languages/english_british-utf8.xml</modification>
+
+		<code>uninstall-1.php</code>
+	</uninstall>
+
+	<install for="2.0-2.0.99">
+		<readme type="file" parsebbc="true">Readme.txt</readme>
+		<modification>modification-2.0.xml</modification>
+		<require-file name="Sources/BestAnswer.php" destination="$sourcedir" />
+		<require-file name="Sources/Subs-BestAnswer.php" destination="$sourcedir" />
+		<require-file name="best_answer.png" destination="$imagesdir/buttons"/>
+		<require-file name="goto_best_answer.gif" destination="$imagesdir/icons"/>
+
+		<modification type="file" type="xml">languages/english.xml</modification>
+		<modification type="file" type="xml">languages/english-utf8.xml</modification>
+		<modification type="file" type="xml">languages/bulgarian.xml</modification>
+		<modification type="file" type="xml">languages/bulgarian-utf8.xml</modification>
+		<modification type="file" type="xml">languages/turkish.xml</modification>
+		<modification type="file" type="xml">languages/turkish-utf8.xml</modification>
+		<modification type="file" type="xml">languages/italian.xml</modification>
+		<modification type="file" type="xml">languages/italian-utf8.xml</modification>
+		<modification type="file" type="xml">languages/portuguese_brazilian.xml</modification>
+		<modification type="file" type="xml">languages/portuguese_brazilian-utf8.xml</modification>
+		<modification type="file" type="xml">languages/english_british.xml</modification>
+		<modification type="file" type="xml">languages/english_british-utf8.xml</modification>
+
+		<database>install-2.php</database>
+	</install>
+	
+	<uninstall for="2.0-2.0.99">
+		<modification reverse="true">modification-2.0.xml</modification>
+		<remove-file name="$sourcedir/BestAnswer.php" />
+		<remove-file name="$sourcedir/Subs-BestAnswer.php" />
+		<remove-file name="$imagesdir/buttons/best_answer.png"/>
+		<remove-file name="$imagesdir/icons/goto_best_answer.gif"/>
+
+		<modification type="file" type="xml" reverse="true">languages/english.xml</modification>
+		<modification type="file" type="xml" reverse="true">languages/english-utf8.xml</modification>
+		<modification type="file" type="xml" reverse="true">languages/bulgarian.xml</modification>
+		<modification type="file" type="xml" reverse="true">languages/bulgarian-utf8.xml</modification>
+		<modification type="file" type="xml" reverse="true">languages/turkish.xml</modification>
+		<modification type="file" type="xml" reverse="true">languages/turkish-utf8.xml</modification>
+		<modification type="file" type="xml" reverse="true">languages/italian.xml</modification>
+		<modification type="file" type="xml" reverse="true">languages/italian-utf8.xml</modification>
+		<modification type="file" type="xml" reverse="true">languages/portuguese_brazilian.xml</modification>
+		<modification type="file" type="xml" reverse="true">languages/portuguese_brazilian-utf8.xml</modification>
+		<modification type="file" type="xml" reverse="true">languages/english_british.xml</modification>
+		<modification type="file" type="xml" reverse="true">languages/english_british-utf8.xml</modification>
+
+		<database>uninstall-2.php</database>
+	</uninstall>
+
+</package-info>

@@ -1,21 +1,21 @@
 <?xml version="1.0"?>
 <!DOCTYPE modification SYSTEM "http://www.simplemachines.org/xml/modification">
 <modification xmlns="http://www.simplemachines.org/xml/modification" xmlns:smf="http://www.simplemachines.org/">
-	<id>Avalanche91:BestAnswer</id>
-	<version>1.4</version>
+    <id>Avalanche91:BestAnswer</id>
+    <version>1.4</version>
 
-	<file name="$boarddir/index.php" error="fatal">
-		<operation>
-			<search error="fatal" position="before"><![CDATA['.xml' => array('News.php', 'ShowXmlFeed'),]]></search>
-			<add><![CDATA[
-		'bestanswer' => array('BestAnswer.php', 'BestAnswerMain'), ]]></add>
-		</operation>
-	</file>
+    <file name="$boarddir/index.php" error="fatal">
+        <operation>
+            <search error="fatal" position="before"><![CDATA['.xml' => array('News.php', 'ShowXmlFeed'),]]></search>
+            <add><![CDATA[
+        'bestanswer' => array('BestAnswer.php', 'BestAnswerMain'), ]]></add>
+        </operation>
+    </file>
 
-	<file name="$themedir/style.css">
-		<operation>
-			<search position="end"></search>
-			<add><![CDATA[
+    <file name="$themedir/style.css">
+        <operation>
+            <search position="end"></search>
+            <add><![CDATA[
 
 .post_best_answer { border: 5px solid #33cc33; border-radius: 0 0 7px 7px; }
 .best_answer_button span, .remove_best_answer_button span { width: 20px; height: 20px; display: inline-block; }
@@ -25,215 +25,215 @@
 .is_best_answer { padding: 10px 0 6px; background: #33cc33; color: #fff; font-size: 14px; border-radius: 7px 7px 0 0; text-align: center; }
 .is_best_answer a { font-weight: 800; color: #ffffff}
 .is_best_answer a:hover { color: #ffdd99 }]]></add>
-		</operation>
-	</file>
+        </operation>
+    </file>
 
-	<file name="$sourcedir/Display.php">
-		<operation>
-			<search position="after"><![CDATA[FROM ({$db_prefix}topics AS t, {$db_prefix}messages AS ms)" . ($user_info['is_guest'] ? '' : "]]></search>
-			<add><![CDATA[
-				,`ba`.`id`,`ba`.`id_msg`,`ba`.`ID_TOPIC`,`ba`.`id_member`,UNIX_TIMESTAMP(`ba`.`time_marked`) AS `time`,`m`.`memberName`]]></add>
-		</operation>
+    <file name="$sourcedir/Display.php">
+        <operation>
+            <search position="after"><![CDATA[FROM ({$db_prefix}topics AS t, {$db_prefix}messages AS ms)" . ($user_info['is_guest'] ? '' : "]]></search>
+            <add><![CDATA[
+                ,`ba`.`id`,`ba`.`id_msg`,`ba`.`ID_TOPIC`,`ba`.`id_member`,UNIX_TIMESTAMP(`ba`.`time_marked`) AS `time`,`m`.`memberName`]]></add>
+        </operation>
 
-		<operation>
-			<search position="before"><![CDATA[LEFT JOIN {$db_prefix}log_topics AS lt ON (lt.ID_TOPIC = $topic AND lt.ID_MEMBER = $ID_MEMBER)") ."]]></search>
-			<add><![CDATA[
-			LEFT JOIN {$db_prefix}best_answer AS `ba` ON `t`.`ID_TOPIC` = `ba`.`ID_TOPIC`
-			LEFT JOIN {$db_prefix}members AS `m` ON `ba`.`id_member` = `m`.`id_member`]]></add>
-		</operation>
+        <operation>
+            <search position="before"><![CDATA[LEFT JOIN {$db_prefix}log_topics AS lt ON (lt.ID_TOPIC = $topic AND lt.ID_MEMBER = $ID_MEMBER)") ."]]></search>
+            <add><![CDATA[
+            LEFT JOIN {$db_prefix}best_answer AS `ba` ON `t`.`ID_TOPIC` = `ba`.`ID_TOPIC`
+            LEFT JOIN {$db_prefix}members AS `m` ON `ba`.`id_member` = `m`.`id_member`]]></add>
+        </operation>
 
-		<operation>
-			<search position="before"><![CDATA[// Create a previous next string if the selected theme has it as a selected option.]]></search>
-			<add><![CDATA[
+        <operation>
+            <search position="before"><![CDATA[// Create a previous next string if the selected theme has it as a selected option.]]></search>
+            <add><![CDATA[
 
-	$context['ba']['id_msg'] = $topicinfo['id_msg'];
-	$context['ba']['ID_TOPIC'] = $topicinfo['ID_TOPIC'];
-	$context['ba']['id_member'] = $topicinfo['id_member'];
-	$context['ba']['time'] = $topicinfo['time'];
-	$context['ba']['member_name'] = $topicinfo['memberName'];
-	$context['ba']['time'] = $topicinfo['time'];]]></add>
-		</operation>
+    $context['ba']['id_msg'] = $topicinfo['id_msg'];
+    $context['ba']['ID_TOPIC'] = $topicinfo['ID_TOPIC'];
+    $context['ba']['id_member'] = $topicinfo['id_member'];
+    $context['ba']['time'] = $topicinfo['time'];
+    $context['ba']['member_name'] = $topicinfo['memberName'];
+    $context['ba']['time'] = $topicinfo['time'];]]></add>
+        </operation>
 
-		<operation>
-			<search position="after"><![CDATA[return $output;]]></search>
-			<add><![CDATA[// Let's create the "jump to" link if we have a Best Answer	
-	if ($context['topic_first_message'] == $output['id']) {
+        <operation>
+            <search position="after"><![CDATA[return $output;]]></search>
+            <add><![CDATA[// Let's create the "jump to" link if we have a Best Answer   
+    if ($context['topic_first_message'] == $output['id']) {
 
-		global $db_prefix;
+        global $db_prefix;
 
-		$result = db_query(
-			"SELECT `id_msg`
-			FROM {$db_prefix}messages
-			WHERE `ID_TOPIC` = $topic
-			LIMIT 3", __FILE__, __LINE__
-		);
-		while ($row = mysql_fetch_assoc($result)) {
-			$data['ba_jump_count'][] = $row['id_msg']; // Creates a list of the first 3 posts from the topic
-		}
-		// Is the Best Answer amongst these 3 posts?
-		$context['ba_display_link'] = in_array($context['ba']['id_msg'], $data['ba_jump_count']);
-		$data = mysql_num_rows($result);
-	}
-	
-	]]></add>
-		</operation>
-		
-		<operation>
-			<search position="after"><![CDATA[// Load up the "double post" sequencing magic.]]></search>
-			<add><![CDATA[// Well we need to determine which answer is marked as Best Solution
-	$result = db_query("SELECT `ID_TOPIC` FROM {$db_prefix}best_answer WHERE `ID_TOPIC`=$topic",
-		__FILE__, __LINE__);
-	$context['isMarkedBest'] = mysql_num_rows($result);
+        $result = db_query(
+            "SELECT `id_msg`
+            FROM {$db_prefix}messages
+            WHERE `ID_TOPIC` = $topic
+            LIMIT 3", __FILE__, __LINE__
+        );
+        while ($row = mysql_fetch_assoc($result)) {
+            $data['ba_jump_count'][] = $row['id_msg']; // Creates a list of the first 3 posts from the topic
+        }
+        // Is the Best Answer amongst these 3 posts?
+        $context['ba_display_link'] = in_array($context['ba']['id_msg'], $data['ba_jump_count']);
+        $data = mysql_num_rows($result);
+    }
+    
+    ]]></add>
+        </operation>
+        
+        <operation>
+            <search position="after"><![CDATA[// Load up the "double post" sequencing magic.]]></search>
+            <add><![CDATA[// Well we need to determine which answer is marked as Best Solution
+    $result = db_query("SELECT `ID_TOPIC` FROM {$db_prefix}best_answer WHERE `ID_TOPIC`=$topic",
+        __FILE__, __LINE__);
+    $context['isMarkedBest'] = mysql_num_rows($result);
 
-	]]></add>
-		</operation>
-	</file>
+    ]]></add>
+        </operation>
+    </file>
 
-	<file name="$themedir/Display.template.php">
-		<operation>
-			<search position="before"><![CDATA[$message['alternate'] == 0 ? 'windowbg' : 'windowbg2',]]></search>
-			<add><![CDATA[ (($context['ba']['id_msg'] != 0 && $context['ba']['id_msg'] == $message['id']) ? ' post_best_answer' : null) , ]]></add>
-		</operation>
+    <file name="$themedir/Display.template.php">
+        <operation>
+            <search position="before"><![CDATA[$message['alternate'] == 0 ? 'windowbg' : 'windowbg2',]]></search>
+            <add><![CDATA[ (($context['ba']['id_msg'] != 0 && $context['ba']['id_msg'] == $message['id']) ? ' post_best_answer' : null) , ]]></add>
+        </operation>
 
-		<operation>
-			<search position="after"><![CDATA[// Can they reply? Have they turned on quick reply?]]></search>
-			<add><![CDATA[
-		/*	- If being veiwed by topic starter, or may be an admin, or may be a mod;
-			- If this is not the first message;
-			- If somebody has not already marked any reply from the topic as Best Answer  */
-		if (($context['topic_starter_id'] == $context['user']['id'] || $context['user']['is_mod'] || $context['user']['is_admin']) && $message['id'] != $context['topic_first_message'] && $context['isMarkedBest'] == 0) {
-			echo '<a class="best_answer_button" href="' . $scripturl . '?action=bestanswer;do=mark;msg=' , $message['id'] , '"><img src="' . $settings['images_url'] . '/buttons/best_answer.gif" alt="' . $txt['bestanswer'] . '" title="' . $txt['bestanswer'] . '" align="middle" /><b>' . $txt['bestanswer'] . '</b></a>';
-		}
-		// Allows TopicStarter/Admin/Mod to unset a reply as Best Answer
-		if ($context['ba']['id_msg'] != 0 && $context['ba']['id_msg'] == $message['id'] && ($context['topic_starter_id'] == $context['user']['id'] || $context['user']['is_mod'] || $context['user']['is_admin']) && $message['id'] != $context['topic_first_message'] && $context['isMarkedBest'] == 1) {
-			echo '<a class="remove_best_answer_button" href="' . $scripturl . '?action=bestanswer;do=unmark;msg=' , $message['id'] , '"><img src="' . $settings['images_url'] . '/buttons/best_answer_remove.gif" alt="' . $txt['rv_bestanswer'] . '" title="' . $txt['rv_bestanswer'] . '" align="middle"  /><b>' . $txt['rv_bestanswer'] . '</b></a>';
-		}
-		
-		]]></add>
-		</operation>
-		
-		<operation>
-			<search position="before"><![CDATA[<a name="msg', $message['id'], '"></a>', $message['first_new'] ? '<a name="new"></a>' : '';]]></search>
-			<add><![CDATA[
+        <operation>
+            <search position="after"><![CDATA[// Can they reply? Have they turned on quick reply?]]></search>
+            <add><![CDATA[
+        /*  - If being veiwed by topic starter, or may be an admin, or may be a mod;
+            - If this is not the first message;
+            - If somebody has not already marked any reply from the topic as Best Answer  */
+        if (($context['topic_starter_id'] == $context['user']['id'] || $context['user']['is_mod'] || $context['user']['is_admin']) && $message['id'] != $context['topic_first_message'] && $context['isMarkedBest'] == 0) {
+            echo '<a class="best_answer_button" href="' . $scripturl . '?action=bestanswer;do=mark;msg=' , $message['id'] , '"><img src="' . $settings['images_url'] . '/buttons/best_answer.gif" alt="' . $txt['bestanswer'] . '" title="' . $txt['bestanswer'] . '" align="middle" /><b>' . $txt['bestanswer'] . '</b></a>';
+        }
+        // Allows TopicStarter/Admin/Mod to unset a reply as Best Answer
+        if ($context['ba']['id_msg'] != 0 && $context['ba']['id_msg'] == $message['id'] && ($context['topic_starter_id'] == $context['user']['id'] || $context['user']['is_mod'] || $context['user']['is_admin']) && $message['id'] != $context['topic_first_message'] && $context['isMarkedBest'] == 1) {
+            echo '<a class="remove_best_answer_button" href="' . $scripturl . '?action=bestanswer;do=unmark;msg=' , $message['id'] , '"><img src="' . $settings['images_url'] . '/buttons/best_answer_remove.gif" alt="' . $txt['rv_bestanswer'] . '" title="' . $txt['rv_bestanswer'] . '" align="middle"  /><b>' . $txt['rv_bestanswer'] . '</b></a>';
+        }
+        
+        ]]></add>
+        </operation>
+        
+        <operation>
+            <search position="before"><![CDATA[<a name="msg', $message['id'], '"></a>', $message['first_new'] ? '<a name="new"></a>' : '';]]></search>
+            <add><![CDATA[
 
-		// If this is the question post; If we have a Best Answers; If the Best Answer is within the first 3 posts
-		if ($context['topic_first_message'] == $message['id'] && $context['ba']['id_msg'] && ($context['ba_display_link'] == false)) {
-			echo '<div id="best_answer_goto" class="is_best_answer">' . $txt['bestanswer_jumpto_1'] . ' <a href="?topic=' . $context['ba']['ID_TOPIC'] . '.msg' . $context['ba']['id_msg'] . '#msg' . $context['ba']['id_msg'] . '">' . $txt['bestanswer_jumpto_2'] . '</a></div>';
-		}
+        // If this is the question post; If we have a Best Answers; If the Best Answer is within the first 3 posts
+        if ($context['topic_first_message'] == $message['id'] && $context['ba']['id_msg'] && ($context['ba_display_link'] == false)) {
+            echo '<div id="best_answer_goto" class="is_best_answer">' . $txt['bestanswer_jumpto_1'] . ' <a href="?topic=' . $context['ba']['ID_TOPIC'] . '.msg' . $context['ba']['id_msg'] . '#msg' . $context['ba']['id_msg'] . '">' . $txt['bestanswer_jumpto_2'] . '</a></div>';
+        }
 
-		// if marked as best answer - show it and say by whom
-		if ($context['ba']['id_msg'] != 0 && $context['ba']['id_msg'] == $message['id']) {
-			echo '<div class="profile_success is_best_answer">';
-			echo $txt['bestanswer_marked'] . ' <a href="' . $scripturl . '?action=profile;u=' . $context['ba']['id_member'] . '">' . $context['ba']['member_name'] . '</a> ' . $txt['on'] . ' ' . timeformat($context['ba']['time']);
-			echo '</div>';
-		}
-		]]></add>
-		</operation>
-	</file>
+        // if marked as best answer - show it and say by whom
+        if ($context['ba']['id_msg'] != 0 && $context['ba']['id_msg'] == $message['id']) {
+            echo '<div class="profile_success is_best_answer">';
+            echo $txt['bestanswer_marked'] . ' <a href="' . $scripturl . '?action=profile;u=' . $context['ba']['id_member'] . '">' . $context['ba']['member_name'] . '</a> ' . $txt['on'] . ' ' . timeformat($context['ba']['time']);
+            echo '</div>';
+        }
+        ]]></add>
+        </operation>
+    </file>
 
-	<file name="$sourcedir/RemoveTopic.php">
-		<operation>
-			<search position="before"><![CDATA[// Delete attachment(s) if they exist.]]></search>
-			<add><![CDATA[
-		$query = db_query(
-			"SELECT `id` FROM {$db_prefix}best_answer WHERE `id_msg`=$message",
-			__FILE__, __LINE__
-		);
-		if (mysql_num_rows($query) == 1) {
-			$ba = mysql_fetch_row($query);
-			db_query("DELETE FROM {$db_prefix}best_answer WHERE `id`=$ba[0]",
-				__FILE__, __LINE__
-			);
-			$ba = null;
-		}
-		]]></add>
-		</operation>
-	</file>
+    <file name="$sourcedir/RemoveTopic.php">
+        <operation>
+            <search position="before"><![CDATA[// Delete attachment(s) if they exist.]]></search>
+            <add><![CDATA[
+        $query = db_query(
+            "SELECT `id` FROM {$db_prefix}best_answer WHERE `id_msg`=$message",
+            __FILE__, __LINE__
+        );
+        if (mysql_num_rows($query) == 1) {
+            $ba = mysql_fetch_row($query);
+            db_query("DELETE FROM {$db_prefix}best_answer WHERE `id`=$ba[0]",
+                __FILE__, __LINE__
+            );
+            $ba = null;
+        }
+        ]]></add>
+        </operation>
+    </file>
 
-	<file name="$sourcedir/SplitTopics.php">
-		<operation>
-			<search position="after"><![CDATA[// Grab the response prefix (like 'Re: ') in the default forum language.]]></search>
-			<add><![CDATA[// Merging posts? Okay, let's properly merge best answers too
-	$query = db_query(
-		"SELECT `id`,`ID_TOPIC` FROM {$db_prefix}best_answer WHERE `ID_TOPIC` IN ($topics)",
-		__FILE__, __LINE__);
-	if (mysql_num_rows($query) == 1) {
-		$data = mysql_fetch_row($query);
-		if ($data[1] == $topics[1]) {
-			db_query(
-				"UPDATE {$db_prefix}best_answer SET `ID_TOPIC`=$ID_TOPIC WHERE `id`=$data[0]",
-				__FILE__, __LINE__);
-		}
-	} elseif (mysql_num_rows($query) == 2) {
-		db_query(
-			"DELETE FROM {$db_prefix}best_answer WHERE `ID_TOPIC` IN ($topics)",
-			__FILE__, __LINE__
-		);
-	}
-	mysql_free_result($query);
-	$data = null;
+    <file name="$sourcedir/SplitTopics.php">
+        <operation>
+            <search position="after"><![CDATA[// Grab the response prefix (like 'Re: ') in the default forum language.]]></search>
+            <add><![CDATA[// Merging posts? Okay, let's properly merge best answers too
+    $query = db_query(
+        "SELECT `id`,`ID_TOPIC` FROM {$db_prefix}best_answer WHERE `ID_TOPIC` IN ($topics)",
+        __FILE__, __LINE__);
+    if (mysql_num_rows($query) == 1) {
+        $data = mysql_fetch_row($query);
+        if ($data[1] == $topics[1]) {
+            db_query(
+                "UPDATE {$db_prefix}best_answer SET `ID_TOPIC`=$ID_TOPIC WHERE `id`=$data[0]",
+                __FILE__, __LINE__);
+        }
+    } elseif (mysql_num_rows($query) == 2) {
+        db_query(
+            "DELETE FROM {$db_prefix}best_answer WHERE `ID_TOPIC` IN ($topics)",
+            __FILE__, __LINE__
+        );
+    }
+    mysql_free_result($query);
+    $data = null;
 
-	]]></add>
-		</operation>
+    ]]></add>
+        </operation>
 
-		<operation>
-			<search position="after"><![CDATA[// Move the messages over to the other topic.]]></search>
-			<add><![CDATA[
-	// If the best answer was amongst these posts that were moved, we have to move the best best answer as well
-	$query = db_query("SELECT `id`,`id_msg` FROM {$db_prefix}best_answer WHERE `id_msg` IN ($splitMessages)",
-		__FILE__, __LINE__);
-	if (mysql_num_rows($query) == 1) {
-		$data = mysql_fetch_row($query);
-		if ($data[1] == $splitMessages[0]) {
-			// The question cannot be an answer!
-			db_query(
-				"DELETE FROM {$db_prefix}best_answer WHERE `id`=$data[0]",
-				__FILE__, __LINE__
-			);
-		} else {
-			// Now that we are moving stuff, it's time for the best answer to be moved
-			db_query(
-				"UPDATE {$db_prefix}best_answer SET `ID_TOPIC`=$split2_ID_TOPIC WHERE `id`=$data[0]",
-				__FILE__, __LINE__
-			);
-		}
-	}
-	mysql_free_result($query);
-	$data = null;
+        <operation>
+            <search position="after"><![CDATA[// Move the messages over to the other topic.]]></search>
+            <add><![CDATA[
+    // If the best answer was amongst these posts that were moved, we have to move the best best answer as well
+    $query = db_query("SELECT `id`,`id_msg` FROM {$db_prefix}best_answer WHERE `id_msg` IN ($splitMessages)",
+        __FILE__, __LINE__);
+    if (mysql_num_rows($query) == 1) {
+        $data = mysql_fetch_row($query);
+        if ($data[1] == $splitMessages[0]) {
+            // The question cannot be an answer!
+            db_query(
+                "DELETE FROM {$db_prefix}best_answer WHERE `id`=$data[0]",
+                __FILE__, __LINE__
+            );
+        } else {
+            // Now that we are moving stuff, it's time for the best answer to be moved
+            db_query(
+                "UPDATE {$db_prefix}best_answer SET `ID_TOPIC`=$split2_ID_TOPIC WHERE `id`=$data[0]",
+                __FILE__, __LINE__
+            );
+        }
+    }
+    mysql_free_result($query);
+    $data = null;
 
-	]]></add>
-		</operation>
-	</file>
+    ]]></add>
+        </operation>
+    </file>
 
-	<file name="$sourcedir/MessageIndex.php">
-		<operation>
-			<search position="before"><![CDATA[mf.smileysEnabled AS firstSmileys]]></search>
-			<add><![CDATA[
-				,`ba`.`id_msg` as `best_answer`]]></add>
-		</operation>
+    <file name="$sourcedir/MessageIndex.php">
+        <operation>
+            <search position="before"><![CDATA[mf.smileysEnabled AS firstSmileys]]></search>
+            <add><![CDATA[
+                ,`ba`.`id_msg` as `best_answer`]]></add>
+        </operation>
 
-		<operation>
-			<search position="before"><![CDATA[LEFT JOIN {$db_prefix}log_mark_read AS lmr ON (lmr.ID_BOARD = $board AND lmr.ID_MEMBER = $ID_MEMBER)"). "]]></search>
-			<add><![CDATA[
-				LEFT JOIN {$db_prefix}best_answer AS `ba` ON `t`.`ID_TOPIC` = `ba`.`ID_TOPIC`]]></add>
-		</operation>
+        <operation>
+            <search position="before"><![CDATA[LEFT JOIN {$db_prefix}log_mark_read AS lmr ON (lmr.ID_BOARD = $board AND lmr.ID_MEMBER = $ID_MEMBER)"). "]]></search>
+            <add><![CDATA[
+                LEFT JOIN {$db_prefix}best_answer AS `ba` ON `t`.`ID_TOPIC` = `ba`.`ID_TOPIC`]]></add>
+        </operation>
 
-		<operation>
-			<search position="replace"><![CDATA['views' => $row['numViews']]]></search>
-			<add><![CDATA['views' => $row['numViews'],
-				'best_answer' => array(
-					'id_msg' => $row['best_answer'],
-					'href' => $scripturl . '?topic=' . $row['ID_TOPIC'] . '.msg' . $row['best_answer'] . '#msg' . $row['best_answer']
-				),]]></add>
-		</operation>
-	</file>
+        <operation>
+            <search position="replace"><![CDATA['views' => $row['numViews']]]></search>
+            <add><![CDATA['views' => $row['numViews'],
+                'best_answer' => array(
+                    'id_msg' => $row['best_answer'],
+                    'href' => $scripturl . '?topic=' . $row['ID_TOPIC'] . '.msg' . $row['best_answer'] . '#msg' . $row['best_answer']
+                ),]]></add>
+        </operation>
+    </file>
 
-	<file name="$themedir/MessageIndex.template.php">
-		<operation>
-			<search error="fatal" position="before"><![CDATA[<a href="', $topic['last_post']['href'], '"><img src="', $settings['images_url'], '/icons/last_post.gif" alt="', $txt[111], '" title="', $txt[111], '" style="float: right;" /></a>]]></search>
-			<add><![CDATA[
-						' . ($topic['best_answer']['id_msg'] > 0 ? '<a href="'. $topic['best_answer']['href']. '"><img src="'. $settings['images_url']. '/buttons/goto_best_answer.gif" alt="'. $txt['bestanswer']. '" title="'. $txt['bestanswer']. '" style="float: right; margin-right: 5px"/></a>' : null) . ']]></add>
-		</operation>
-	</file>
+    <file name="$themedir/MessageIndex.template.php">
+        <operation>
+            <search error="fatal" position="before"><![CDATA[<a href="', $topic['last_post']['href'], '"><img src="', $settings['images_url'], '/icons/last_post.gif" alt="', $txt[111], '" title="', $txt[111], '" style="float: right;" /></a>]]></search>
+            <add><![CDATA[
+                        ' . ($topic['best_answer']['id_msg'] > 0 ? '<a href="'. $topic['best_answer']['href']. '"><img src="'. $settings['images_url']. '/buttons/goto_best_answer.gif" alt="'. $txt['bestanswer']. '" title="'. $txt['bestanswer']. '" style="float: right; margin-right: 5px"/></a>' : null) . ']]></add>
+        </operation>
+    </file>
 
 </modification>

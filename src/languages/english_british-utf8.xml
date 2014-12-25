@@ -1,14 +1,14 @@
 <?xml version="1.0"?>
 <!DOCTYPE modification SYSTEM "http://www.simplemachines.org/xml/modification">
 <modification xmlns="http://www.simplemachines.org/xml/modification" xmlns:smf="http://www.simplemachines.org/">
-	<id>Avalanche91:BestAnswer</id>	
-	<name>Best Answer</name>	
-	<version>1.4</version>
+    <id>Avalanche91:BestAnswer</id> 
+    <name>Best Answer</name>    
+    <version>1.4</version>
 
-	<file name="$languagedir/Modifications.english_british-utf8.php" error="skip">
-		<operation>
-			<search position="end"></search>
-			<add><![CDATA[
+    <file name="$languagedir/Modifications.english_british-utf8.php" error="skip">
+        <operation>
+            <search position="end"></search>
+            <add><![CDATA[
 // Best Answer
 $txt['bestanswer'] = 'Best Answer';
 $txt['rv_bestanswer'] = 'Undo Best Answer';
@@ -16,8 +16,8 @@ $txt['bestanswer_marked'] = 'Marked as best answer by';
 $txt['bestanswer_jumpto_1'] = 'This topic contains a post which is marked as Best Answer.';
 $txt['bestanswer_jumpto_2'] = 'Press here if you would like to see it.';
 // End of Best Answer
-		]]></add>
-		</operation>
-	</file>
+        ]]></add>
+        </operation>
+    </file>
 
 </modification>

@@ -3,11 +3,11 @@
 global $db_prefix;
 
 if(!defined('SMF')) {
-   	die('Cannot install - please verify you put this in the same place as SMF\'s index.php and SSI.php files.');
+    die('Cannot install - please verify you put this in the same place as SMF\'s index.php and SSI.php files.');
 }
 
 if(file_exists(dirname(__FILE__) . '/SSI.php') && !defined('SMF')) {
-	require_once(dirname(__FILE__) . '/SSI.php');
+    require_once(dirname(__FILE__) . '/SSI.php');
 }
 db_query("CREATE TABLE IF NOT EXISTS {$db_prefix}best_answer (
   `id` int(11) NOT NULL AUTO_INCREMENT,
